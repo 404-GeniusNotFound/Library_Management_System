@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.name }} Details - Thar eBooks{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <header class="text-center mb-4">
+        <h1 class="display-4">{{ book.name }}</h1>
+        <h2>by {{ book.author }}</h2>
+        <h3>Rating: {{ book.rating }}</h3>
+    </header>
+    <main>
+        <section class="text-center mb-4">
+            <img src="{{ url_for('static', filename='books_data/cover_image/' + book.cover_image_path) }}" alt="Cover image for {{ book.name }}" class="img-thumbnail">
+        </section>
+
+        <section class="mb-4">
+            <h3>Content</h3>
+            <p>{{ book.content }}</p>
+        </section>
+
+        <section class="text-center">
+            <div class="mb-2">
+                <form method="post" action="{{ url_for('borrow_book', book_id=book.id) }}">
+                    <button type="submit" class="btn btn-danger">Borrow</button>
+                </form>
+            </div>
+            <div class="mb-2">
+                <form method="post" action="{{ url_for('purchase_book', book_id=book.id) }}">
+                    <button type="submit" class="btn btn-success">Purchase</button>
+                </form>
+            </div>
+            <div class="mb-2">
+                <form method="post" action="{{ url_for('rate_book', book_id=book.id) }}">
+                    <div class="form-inline justify-content-center mb-2">
+                        <label for="rating" class="mr-2">Rating:</label>
+                        <select name="rating" id="rating" class="form-control">
+                            {% for star in range(1, 6) %}
+                            <option value="{{ star }}">{{ star }} star{{ 's' if star > 1 else '' }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-info ml-2">Rate</button>
+                    </div>
+                </form>
+            </div>
+            <div class="mb-2">
+                <form method="post" action="{{ url_for('submit_feedback', book_id=book.id) }}">
+                    <div class="form-group">
+                        <textarea name="feedback_text" class="form-control" placeholder="Write your feedback here..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                </form>
+            </div>
+            <div class="mb-4">
+                <form action="{{ url_for('feedback_page', book_id=book.id) }}">
+                    <button type="submit" class="btn btn-secondary">View Feedbacks</button>
+                </form>
+            </div>
+        </section>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="text-center">
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }} d-inline-block">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+    </main>
+</div>
+{% endblock %}

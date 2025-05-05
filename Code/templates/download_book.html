@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Download Book - Thar eBooks{% endblock %}
+
+{% block styles %}
+<style>
+    .download-container {
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+        padding: 2rem;
+        margin-top: 2rem;
+        text-align: center;
+        max-width: 400px; /* or your preferred width */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .download-image {
+        max-width: 200px; /* Adjust as needed */
+        height: auto;
+        margin-bottom: 1rem;
+    }
+    .download-link {
+        display: inline-block;
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        margin-top: 1rem;
+    }
+    .download-link:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="download-container">
+    <h1>Download "{{ book.name }}"</h1>
+    <img src="{{ cover_image_url }}" alt="Cover Image" class="download-image">
+    <p>
+        <a href="{{ pdf_url }}" class="download-link" download>Download "{{ book.name }}"</a>
+    </p>
+</div>
+{% endblock %}

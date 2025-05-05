@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Book Activity - Thar eBooks{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Book Activity</h1>
+
+    <!-- Borrowed Books Section -->
+    <h2>Borrowed Books</h2>
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Book Name</th>
+                <th>Borrower</th>
+                <th>Date Issued</th>
+                <th>Return Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book_request in borrowed_books_details %}
+            <tr>
+                <td>{{ book_request.book.name }}</td>
+                <td>{{ book_request.user.username }}</td>
+                <td>{{ book_request.date_issued.strftime('%Y-%m-%d') if book_request.date_issued else 'N/A' }}</td>
+                <td>{{ book_request.return_date.strftime('%Y-%m-%d') if book_request.return_date else 'N/A' }}</td>
+                <td>{{ book_request.status }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No borrowed books to display.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Purchased Books Section -->
+    <h2>Purchased Books</h2>
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Book Name</th>
+                <th>Purchaser</th>
+                <th>Date of Purchase</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book_request in purchased_books_details %}
+            <tr>
+                <td>{{ book_request.book.name }}</td>
+                <td>{{ book_request.user.username }}</td>
+                <td>{{ book_request.date_purchased.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">No purchased books to display.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

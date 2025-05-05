@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment - Thar eBooks{% endblock %}
+
+{% block styles %}
+<style>
+    .payment-container {
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+        padding: 2rem;
+        margin-top: 2rem;
+        text-align: center;
+    }
+    .payment-image {
+        max-width: 200px; /* adjust as needed */
+        height: auto;
+        margin-bottom: 1rem;
+    }
+    .price-tag {
+        font-size: 1.5rem;
+        color: #212529;
+        margin-bottom: 2rem;
+    }
+    .btn-payment {
+        font-size: 1.2rem;
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="payment-container">
+                <h1>Payment for "{{ book.name }}"</h1>
+                <img src="{{ url_for('static', filename='books_data/cover_image/' + book.cover_image_path) }}" alt="Book Cover" class="payment-image">
+                <p class="price-tag">&#x20B9; 199</p>
+                <form action="{{ url_for('process_payment', book_id=book.id) }}" method="POST">
+                    <input type="submit" value="Pay and Download" class="btn btn-success btn-lg btn-payment">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

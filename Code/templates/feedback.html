@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Feedback for {{ book.name }} - Thar eBooks{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Feedback for {{ book.name }}</h1>
+    <div class="text-center mb-4">
+        <h2>Rating: {{ book.rating }}</h2>
+    </div>
+    <div>
+        <h2>Feedbacks</h2>
+        <ul class="list-unstyled">
+            {% for feedback in feedbacks %}
+            <li class="mb-3">
+                <article class="p-3 bg-light border rounded">
+                    <p>{{ feedback.text }}</p>
+                    <footer>
+                        <small class="text-muted">Submitted by {{ feedback.user.username }} on {{ feedback.created_at }}</small>
+                    </footer>
+                </article>
+            </li>
+            {% else %}
+            <li>No feedbacks to display.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

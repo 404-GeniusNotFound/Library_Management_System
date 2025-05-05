@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Book - Thar eBooks{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Add New Book</h1>
+    <form action="{{ url_for('add_book') }}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Book Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="author">Author:</label>
+            <input type="text" class="form-control" id="author" name="author" required>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Content:</label>
+            <textarea class="form-control" id="content" name="content" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="section_id">Section:</label>
+            <select class="form-control" id="section_id" name="section_id" required>
+                {% for section in sections %}
+                <option value="{{ section.id }}">{{ section.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <a href="{{ url_for('add_section') }}" class="btn btn-link">Add New Section</a>
+        </div>
+
+        <div class="form-group">
+            <label for="cover_image">Cover Image:</label>
+            <input type="file" class="form-control-file" id="cover_image" name="cover_image" required>
+        </div>
+
+        <div class="form-group">
+            <label for="pdf_file">PDF File:</label>
+            <input type="file" class="form-control-file" id="pdf_file" name="pdf_file" required>
+        </div>
+
+        <div class="form-group">
+            <label for="genre">Genre:</label>
+            <input type="text" class="form-control" id="genre" name="genre" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Book</button>
+    </form>
+</div>
+{% endblock %}

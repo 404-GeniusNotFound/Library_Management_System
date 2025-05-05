@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Books - Thar eBooks{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<style>
+    .book-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    .book {
+        margin: 10px;
+        text-align: center;
+    }
+    .book img {
+        width: 150px;
+        height: auto;
+        margin-bottom: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Books</h2>
+    <form action="{{ url_for('books') }}" method="get" class="form-inline mb-3">
+        <input type="text" name="search" placeholder="Search books" class="form-control mr-2">
+        <select name="section" class="form-control mr-2">
+            <option value="">Select section</option>
+            {% for section in sections %}
+            <option value="{{ section.id }}">{{ section.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="genre" class="form-control mr-2">
+            <option value="">All Genres</option>
+            {% for genre in genres %}
+            <option value="{{ genre[0] }}">{{ genre[0] }}</option>
+            {% endfor %}
+        </select>
+        <select name="sort" class="form-control mr-2">
+            <option value="">Sort By</option>
+            <option value="recent">Recently Added</option>
+            <option value="top_rated">Top Rated</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    <div class="book-container">
+        {% for book in books %}
+        <div class="book">
+            <a href="{{ url_for('book_details', book_id=book.id) }}">
+                {% if book.cover_image_path %}
+                <img src="{{ url_for('static', filename='books_data/cover_image/' + book.cover_image_path) }}" alt="{{ book.name }}">
+                {% else %}
+                <img src="{{ url_for('static', filename='path/to/default/cover_image.jpg') }}" alt="Default Cover Image">
+                {% endif %}
+                <h3>{{ book.name }}</h3>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

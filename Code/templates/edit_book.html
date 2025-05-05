@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Book - Thar eBooks{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            Edit Book Details
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('edit_book', book_id=book.id) }}" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Book Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ book.name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" class="form-control" id="author" name="author" value="{{ book.author }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="content">Content</label>
+                    <textarea class="form-control" id="content" name="content" rows="4" required>{{ book.content }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="section_id">Section</label>
+                    <select class="form-control" id="section_id" name="section_id" required>
+                        {% for section in sections %}
+                            <option value="{{ section.id }}" {% if section.id == book.section_id %} selected {% endif %}>{{ section.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="genre">Genre</label>
+                    <input type="text" class="form-control" id="genre" name="genre" value="{{ book.genre }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="cover_image">Cover Image</label>
+                    <div>
+                        <img src="{{ url_for('static', filename='books_data/cover_image/' + book.cover_image_path) }}" alt="Cover Image" class="img-thumbnail">
+                    </div>
+                    <input type="file" class="form-control-file" id="cover_image" name="cover_image">
+                </div>
+                <div class="form-group">
+                    <label for="pdf_file">PDF File</label>
+                    <div>
+                        <embed src="{{ url_for('static', filename='books_data/book_pdf/' + book.pdf_path) }}" type="application/pdf" width="100%" height="400px">
+                    </div>
+                    <input type="file" class="form-control-file" id="pdf_file" name="pdf_file">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update Book</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Requests - Thar eBooks{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Manage Requests</h2>
+    <!-- Place this button where appropriate in your manage_requests.html -->
+    <form action="{{ url_for('issue_all_books') }}" method="post">
+        <input type="submit" value="Issue All" class="btn btn-primary">
+    </form>
+    <br>
+    {% for request in requests %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Book: {{ request.book.name }} - Requested by: {{ request.user.username }}</h5>
+            <p class="card-text">Status: {{ request.status }}</p>
+            {% if request.status == 'pending' %}
+            <form action="{{ url_for('update_request', request_id=request.id, action='issue') }}" method="post">
+                <button type="submit" class="btn btn-success">Issue Book</button>
+            </form>
+            {% elif request.status == 'issued' %}
+            <form action="{{ url_for('update_request', request_id=request.id, action='revoke') }}" method="post">
+                <button type="submit" class="btn btn-danger">Revoke Access</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

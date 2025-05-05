@@ -1,0 +1,12 @@
+<!-- templates/book_borrowed.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Borrowed</title>
+</head>
+<body>
+    <h2>Book Borrowed</h2>
+    <p>The book "{{ book.name }}" by {{ book.author }} has been successfully borrowed.</p>
+    <a href="{{ url_for('list_books') }}">Return to Book List</a>
+</body>
+</html>

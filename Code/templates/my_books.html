@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}My Books - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">My Books</h2>
+    <form action="{{ url_for('my_books') }}" method="get" class="mb-3">
+        <div class="form-group">
+            <label for="book_filter">Choose a list:</label>
+            <select name="book_filter" id="book_filter" class="form-control" onchange="this.form.submit()">
+                <option value="borrowed" {% if filter =='borrowed' %}selected{% endif %}>Borrowed Books</option>
+                <option value="purchased" {% if filter =='purchased' %}selected{% endif %}>Purchased Books</option>
+            </select>
+        </div>
+    </form>
+
+    {% if filter == 'borrowed' %}
+        <h3>Borrowed Books</h3>
+        {% if borrowed_books %}
+        <div class="row">
+            {% for book_request in borrowed_book_requests %}
+                <div class="col-lg-12 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ url_for('static', filename='books_data/cover_image/' + book_request.book.cover_image_path) }}" class="card-img-top" style="height: 100px; object-fit: cover;" alt="{{ book_request.book.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book_request.book.name }}</h5>
+                            <p class="card-text">{{ book_request.book.author }}</p>
+                            <p class="card-text"><small class="text-muted">Borrowed on:
+                              {{ book_request.date_issued.strftime('%Y-%m-%d') if book_request.date_issued else 'Not available' }}
+                            </small></p>
+                            <!-- Add this line to display the return date -->
+                            <p class="card-text"><small class="text-muted">Return by:
+                              {{ book_request.return_date.strftime('%Y-%m-%d') if book_request.return_date else 'Not specified' }}
+                            </small></p>
+                            <!-- Embed for PDF viewing with download option -->
+                            <embed src="{{ url_for('static', filename='books_data/book_pdf/' + book_request.book.pdf_path) }}" type="application/pdf" width='100%' height="800px" class="w-100 mb-3">
+                            <form action="{{ url_for('return_book', book_request_id=book_request.id) }}" method="POST">
+                                <button type="submit" class="btn btn-warning">Return Book</button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-muted">Sorry, there are no borrowed books to display.</p>
+                {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted">Sorry, there are no borrowed books to display.</p>
+        {% endif %}
+
+    {% elif filter == 'purchased' %}
+        <h3>Purchased Books</h3>
+        {% if purchased_books %}
+        <div class="row">
+            {% for book in purchased_books %}
+                <div class="col-lg-12 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ url_for('static', filename='books_data/cover_image/' + book.cover_image_path) }}" class="card-img-top" style="height: 100px; object-fit: cover;" alt="{{ book.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.name }}</h5>
+                            <p class="card-text">{{ book.author }}</p>
+                            <!-- Embed for PDF viewing with download option -->
+                            <embed src="{{ url_for('static', filename='books_data/book_pdf/' + book.pdf_path) }}" type="application/pdf" width ='100%' height="800px" class="w-100 mb-3">
+                            <a href="{{ url_for('static', filename='books_data/book_pdf/' + book.pdf_path) }}" class="btn btn-primary" download="{{ book.name }}.pdf">Download PDF</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <p class="text-muted">Sorry, there are no purchased books to display.</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Reader Dashboard - Thar eBooks{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2">Welcome, {{ current_user.username }}!</h1>
+        <form action="{{ url_for('logout') }}" method="post" class="ml-auto">
+            <button type="submit" class="btn btn-warning btn-lg">Logout</button>
+        </form>
+    </div>
+
+    <div>
+        <a href="{{ url_for('books') }}" class="btn btn-primary btn-lg btn-block mb-3">Books</a>
+        <a href="{{ url_for('my_books') }}" class="btn btn-primary btn-lg btn-block mb-3">My Books</a>
+    </div>
+</div>
+{% endblock %}

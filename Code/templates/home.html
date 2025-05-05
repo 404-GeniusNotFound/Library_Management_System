@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to Thar eBooks{% endblock %}
+
+{% block styles %}
+<style>
+    .btn-librarian {
+        background-color: #ff4d4d; /* Custom red color */
+        border-color: #ff4d4d;
+    }
+    .btn-librarian:hover {
+        background-color: #cc0000;
+        border-color: #cc0000;
+    }
+    .btn-reader {
+        background-color: #4d88ff; /* Custom blue color */
+        border-color: #4d88ff;
+    }
+    .btn-reader:hover {
+        background-color: #0066cc;
+        border-color: #0066cc;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid bg-info text-white text-center">
+    <h1 class="display-4">Welcome to Thar eBooks</h1>
+    <p class="lead">Your one-stop destination for all your reading needs.</p>
+</div>
+
+<div class="container text-center mt-5">
+    <!-- Role Selection for Login -->
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-3">
+            <a href="{{ url_for('librarian_login') }}" class="btn btn-librarian btn-lg btn-block" role="button">Librarian Login</a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{{ url_for('reader_login') }}" class="btn btn-reader btn-lg btn-block" role="button">Reader Login</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
